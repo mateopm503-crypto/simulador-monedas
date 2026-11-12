@@ -81,6 +81,7 @@ h1 { margin: 0; color: var(--title); font-size: clamp(24px, min(3.2vw, 6vh), 52p
 .bars { position: absolute; inset: 0; display: flex; justify-content: space-evenly; align-items: flex-end; }
 .bar { width: 24%; max-width: 220px; height: 0; background: var(--bar); border: 3px solid var(--bar-edge); border-bottom: 0; position: relative; transition: height .16s linear; }
 .val { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 8px; font-size: clamp(22px, 2.4vw, 40px); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.val small { font-size: .62em; color: var(--title); }
 .est { position: absolute; left: 0; right: 0; border-top: 5px dashed var(--est); transition: bottom .16s linear; z-index: 2; }
 .est span { position: absolute; right: 6px; top: -34px; color: var(--est); font-size: clamp(14px, 1.3vw, 22px); background: var(--bg); padding: 0 6px; }
 .labels { display: flex; justify-content: space-evenly; margin-left: 74px; padding-top: 10px; font-size: clamp(26px, 2.8vw, 46px); }
@@ -165,14 +166,14 @@ h1 { margin: 0; color: var(--title); font-size: clamp(24px, min(3.2vw, 6vh), 52p
   <section class="chart" aria-label="Gráfico de barras">
     <div class="plot" id="plot">
       <div id="ticks"></div>
-      <div class="est" id="est" hidden><span>la mitad</span></div>
+      <div class="est" id="est"><span>la mitad</span></div>
       <div class="bars">
         <div class="bar" id="barC"><div class="val" id="vC">0</div></div>
         <div class="bar" id="barS"><div class="val" id="vS">0</div></div>
       </div>
     </div>
     <div class="labels"><div>CARA</div><div>SELLO</div></div>
-    <label class="check"><input type="checkbox" id="showEst"> Ver estimación</label>
+    <label class="check"><input type="checkbox" id="showEst" checked> Ver estimación</label>
   </section>
 </div>
 
@@ -210,8 +211,9 @@ h1 { margin: 0; color: var(--title); font-size: clamp(24px, min(3.2vw, 6vh), 52p
     const hS = relative ? (n ? 100 * sellos / n : 0) : 100 * sellos / axisMax;
     $('barC').style.height = hC + '%';
     $('barS').style.height = hS + '%';
-    $('vC').textContent = relative ? (n ? dec(caras / n) : '–') : fmt(caras);
-    $('vS').textContent = relative ? (n ? dec(sellos / n) : '–') : fmt(sellos);
+    const pc = v => n ? ` <small>(${Math.round(100 * v / n)}%)</small>` : '';
+    $('vC').innerHTML = (relative ? (n ? dec(caras / n) : '–') : fmt(caras)) + pc(caras);
+    $('vS').innerHTML = (relative ? (n ? dec(sellos / n) : '–') : fmt(sellos)) + pc(sellos);
     $('est').style.bottom = (relative ? 50 : 100 * (n / 2) / axisMax) + '%';
     $('nC').textContent = fmt(caras); $('nS').textContent = fmt(sellos); $('nT').textContent = fmt(n);
   }
