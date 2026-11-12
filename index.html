@@ -33,8 +33,13 @@ button, label, input { touch-action: manipulation; -webkit-tap-highlight-color: 
 .left { position: relative; padding: 2.2vh 2vw 3vh; display: flex; flex-direction: column; gap: 1.8vh; overflow-y: auto; border-right: 4px solid var(--line); min-width: 0; }
 h1 { margin: 0; color: var(--title); font-size: clamp(24px, min(3.2vw, 6vh), 52px); font-weight: 900; letter-spacing: -.02em; line-height: 1; text-transform: uppercase; }
 .row { display: flex; flex-wrap: wrap; gap: 10px; }
-#launch { display: grid; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); gap: 10px; }
-#launch .btn { white-space: nowrap; }
+.left { container-type: inline-size; }
+#launch { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2cqi; }
+#launch .btn { white-space: nowrap; overflow: hidden; padding: .55em .15em; font-size: clamp(13px, 3.5cqi, 30px); }
+@container (max-width: 380px) {
+  #launch { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #launch .btn { font-size: clamp(14px, 6.5cqi, 26px); }
+}
 .btn { font: inherit; font-weight: 800; font-size: clamp(18px, 1.7vw, 28px); background: var(--btn); color: var(--btn-ink); border: 0; border-radius: 6px; padding: .45em .8em; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,.35); }
 .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(0,0,0,.35); }
 .btn.big { background: var(--title); }
@@ -105,7 +110,6 @@ h1 { margin: 0; color: var(--title); font-size: clamp(24px, min(3.2vw, 6vh), 52p
   .val { font-size: clamp(20px, 5vw, 36px); }
   .est span { font-size: clamp(13px, 2.8vw, 20px); }
 }
-@media (max-width: 400px) { #launch { grid-template-columns: repeat(2, 1fr); } }
 /* ---------- celulares acostados (pantalla baja) ---------- */
 @media (max-height: 520px) and (orientation: landscape) {
   .left { padding: 10px 14px; gap: 8px; }
@@ -115,8 +119,6 @@ h1 { margin: 0; color: var(--title); font-size: clamp(24px, min(3.2vw, 6vh), 52p
   .speed { font-size: 13px; } .speed button { min-height: 32px; padding: 3px 10px; }
   .lcd { font-size: clamp(20px, 8vh, 40px); padding: 6px 12px; }
   .coin { width: 15vh; font-size: 9.5vh; border-width: 3px; }
-  #launch { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
-  #launch .btn { font-size: 14px; padding: .35em .2em; }
   .left { gap: 6px; }
   .lcd { font-size: clamp(18px, 7vh, 36px); }
   .chart { padding: 18px 12px 8px 0; }
