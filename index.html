@@ -77,7 +77,7 @@ h1 { margin: 0; color: var(--title); font-size: clamp(24px, min(3.2vw, 6vh), 52p
 .toggle .on { color: var(--title); }
 
 /* ---------- gráfico ---------- */
-.chart { position: relative; display: flex; flex-direction: column; padding: 3vh 2.5vw 2vh 0; min-width: 0; }
+.chart { position: relative; display: flex; flex-direction: column; padding: 4vh 2.5vw 3vh 0; min-width: 0; }
 .plot { position: relative; flex: 1; margin-left: 74px; border-bottom: 4px solid var(--line); border-left: 4px solid var(--line); }
 .plot::before { content: ""; position: absolute; left: -12px; top: -14px; border: 10px solid transparent; border-bottom: 14px solid var(--line); border-top: 0; }
 .tick { position: absolute; left: -74px; width: 74px; font-size: clamp(14px, 1.2vw, 20px); line-height: 1; text-align: right; padding-right: 14px; transform: translateY(50%); font-variant-numeric: tabular-nums; }
@@ -181,14 +181,12 @@ h1 { margin: 0; color: var(--title); font-size: clamp(24px, min(3.2vw, 6vh), 52p
   <section class="chart" aria-label="Gráfico de barras">
     <div class="plot" id="plot">
       <div id="ticks"></div>
-      <div class="est" id="est"><span>la mitad</span></div>
       <div class="bars">
         <div class="bar" id="barC"><div class="val" id="vC">0</div></div>
         <div class="bar" id="barS"><div class="val" id="vS">0</div></div>
       </div>
     </div>
     <div class="labels"><div>CARA</div><div>SELLO</div></div>
-    <label class="check"><input type="checkbox" id="showEst" checked> Ver estimación</label>
   </section>
 </div>
 
@@ -229,7 +227,6 @@ h1 { margin: 0; color: var(--title); font-size: clamp(24px, min(3.2vw, 6vh), 52p
     const pc = v => n ? ` <small>(${Math.round(100 * v / n)}%)</small>` : '';
     $('vC').innerHTML = (relative ? (n ? dec(caras / n) : '–') : fmt(caras)) + pc(caras);
     $('vS').innerHTML = (relative ? (n ? dec(sellos / n) : '–') : fmt(sellos)) + pc(sellos);
-    $('est').style.bottom = (relative ? 50 : 100 * (n / 2) / axisMax) + '%';
     $('nC').textContent = fmt(caras); $('nS').textContent = fmt(sellos); $('nT').textContent = fmt(n);
   }
   // Moneda real chilena de $1 (1976): cara con O'Higgins, sello con "1 PESO". Fotos CC0 de Wikimedia Commons.
@@ -274,10 +271,8 @@ h1 { margin: 0; color: var(--title); font-size: clamp(24px, min(3.2vw, 6vh), 52p
   $('mode').addEventListener('change', e => {
     relative = e.target.checked;
     $('lAbs').classList.toggle('on', !relative); $('lRel').classList.toggle('on', relative);
-    $('est').querySelector('span').textContent = relative ? '0,50 (la mitad)' : 'la mitad';
     axisMax = 0; drawTicks(); render();
   });
-  $('showEst').addEventListener('change', e => $('est').hidden = !e.target.checked);
   $('reset').addEventListener('click', () => {
     if (running) { cancelAnimationFrame(raf); setRunning(false); }
     caras = 0; sellos = 0; axisMax = 0;
